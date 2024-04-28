@@ -5,40 +5,40 @@ import main.Csiga;
 
 public class Csigaverseny {
 
-    public static Csiga[] csiga = new Csiga[3];         //talÃ¡n nem a legjobb vÃ¡lasztÃ¡s a hÃ¡rom csigÃ¡t globÃ¡lis statikus vÃ¡ltozÃ³vÃ¡ tenni,
-    public static int turboEsely = 20;                  //de kezdÅ‘ vagyok a Javaval Ã©s meggyÅ±lt a bajom a statikus main-bÅ‘l bÃ¡rmilyen nem-statikus
-                                                        //metÃ³dust indÃ­tani Ã©s/vagy vÃ¡ltozÃ³t hasznÃ¡lni, ez lett az Ã¡thidalÃ³ megoldÃ¡s
+    public static Csiga[] csiga = new Csiga[3];         //talán nem a legjobb választás a három csigát globális statikus változóvá tenni,
+    public static int turboEsely = 20;                  //de kezdõ vagyok a Javaval és meggyûlt a bajom a statikus main-bõl bármilyen nem-statikus
+                                                        //metódust indítani és/vagy változót használni, ez lett az áthidaló megoldás
     public static void main(String[] args) {
 
-        indulas();                                      //a 2.0 verziÃ³ban csak ennyi lesz a main-ben :)
+        indulas();                                      //a 2.0 verzióban csak ennyi lesz a main-ben :)
         int tipp = fogadas();
-        for (int aktualisKor = 1; aktualisKor < 6; aktualisKor++) { //innen a ciklus vÃ©gÃ©ig lehetne egy "verseny" metÃ³dusba rakni
+        for (int aktualisKor = 1; aktualisKor < 6; aktualisKor++) { //innen a ciklus végéig lehetne egy "verseny" metódusba rakni
             for (int i = 0; i < 3; i++) {
-                csiga[i].setPozicio(csiga[i].getPozicio()+csiga[i].getSebesseg()); //a sajÃ¡t sebessÃ©gÃ©vel elÅ‘relÃ©p a csiga
-                csiga[i].setSebesseg(Csiga.rnd.nextInt(4));                         //aztÃ¡n Ãºj sebessÃ©get kap
+                csiga[i].setPozicio(csiga[i].getPozicio()+csiga[i].getSebesseg()); //a saját sebességével elõrelép a csiga
+                csiga[i].setSebesseg(Csiga.rnd.nextInt(4));                         //aztán új sebességet kap
             }
-            if (Csiga.rnd.nextInt(100) <= turboEsely) {                             ////ha vÃ©letlenÃ¼l kap gyorsÃ­tÃ³t, duplÃ¡zÃ³dik a sebessÃ©ge
-                int kivalasztott = Csiga.rnd.nextInt(3);                            //annak, aki a KivÃ¡lasztott
+            if (Csiga.rnd.nextInt(100) <= turboEsely) {                             ////ha véletlenül kap gyorsítót, duplázódik a sebessége
+                int kivalasztott = Csiga.rnd.nextInt(3);                            //annak, aki a Kiválasztott
                 csiga[kivalasztott].setSebesseg(csiga[kivalasztott].getSebesseg()*2);
             }
             versenytRajzol(aktualisKor);
-            if (aktualisKor<5) {                        //Ã‰kezetes betÅ±k helyett csÃºcsÃ¡ra Ã¡llÃ­tott nÃ©gyzetben levÅ‘ kÃ©rdÅ‘jelek jelennek meg a kimeneten,
-                System.out.println("Nagyon izgalmas a verseny, a kovetkezo kort az Enterrel indithatod.");
-                try{System.in.read();}                  //ezÃ©rt Ã©kezetek nÃ©lkÃ¼l Ã­rtam az Ã¼zeneteket. A rÃ©gi Netbeans-szel nem volt ilyen gondom, mÃ©g
-                catch(Exception e){}                    //keresem a megoldÃ¡st
+            if (aktualisKor<5) {                        //Ékezetes betûk helyett csúcsára állított négyzetben levõ kérdõjelek jelennek meg a kimeneten,
+                System.out.println("Nagyon izgalmas a verseny, a következõ kört az Enterrel indíthatod.");
+                try{System.in.read();}                  //ezért ékezetek nélkül írtam az üzeneteket. A régi Netbeans-szel nem volt ilyen gondom
+                catch(Exception e){}                    //megtaláltam a megoldást, átírtam az üzeneteket (a projekt kódlapja utf-8-ról win-1250-re)
             }
         }
-        int gyoztes = kiNyert();                    //a csigÃ¡k 0-1-2 index-szel futnak, a tipp 1-2-3 lehet. UtÃ³bbihoz igazÃ­tottam a kiNyert Ã©rtÃ©kÃ©t is
-        System.out.println("Fantasztikus hajraval vegul gyozott a " + csiga[gyoztes-1].getSzin() + " csiga.");
+        int gyoztes = kiNyert();                    //a csigák 0-1-2 index-szel futnak, a tipp 1-2-3 lehet. Utóbbihoz igazítottam a kiNyert értékét is
+        System.out.println("Fantasztikus hajrával végül gyõzött a " + csiga[gyoztes--].getSzin() + " csiga.");
         if (tipp==gyoztes) {
-            System.out.println("Gratulalok, eltalaltad!");
-        } else System.out.println("Nem jott be a tipped.");
+            System.out.println("Gratulálok, eltaláltad!");
+        } else System.out.println("Nem jött be a tipped.");
 
     }
      public static void indulas() {
         String[] szinek = {"piros", "zold", "kek"};
         for (int i = 0; i < 3; i++) {
-            Csiga eticsiga = new Csiga();           //egyesÃ©vel lÃ©tre kell hozni mindhÃ¡rom csigÃ¡t, kÃ¼lÃ¶nben null pointerek maradnak mindenhol
+            Csiga eticsiga = new Csiga();           //egyesével létre kell hozni mindhárom csigát, különben null pointerek maradnak mindenhol
             eticsiga.setSzin(szinek[i]);
             eticsiga.setSebesseg(Csiga.rnd.nextInt(4));
             eticsiga.setPozicio(0);
@@ -48,14 +48,14 @@ public class Csigaverseny {
 
     private static int fogadas() {
         versenytRajzol(0);
-        System.out.println("Itt allunk a rajtvonalnal, ki lesz a gyoztes? ( 1 / 2 / 3 )");
+        System.out.println("Itt állunk a rajtvonalnál, ki lesz a gyõztes? ( 1 / 2 / 3 )");
         String tippelt = System.console().readLine();
-        return parseInt(tippelt);                   //az esetlegesen beÃ­rt hÃ¼lyesÃ©gek vizsgÃ¡latÃ¡tÃ³l most eltekintettem
+        return parseInt(tippelt);                   //az esetlegesen beírt hülyeségek vizsgálatától most eltekintettem
     }
     
     public static void versenytRajzol(int kor){
-        System.out.println(Csiga.RESET);            //a rajtvonal Ã©s az egÃ©sz felsÅ‘ sor alapszÃ­nnel Ã­rÃ³dik
-        System.out.printf("Start |      %d. kor\n", kor);
+        System.out.println(Csiga.RESET);            //a rajtvonal és az egész felsõ sor alapszínnel íródik
+        System.out.printf("Start |      %d. kör\n", kor);
         for (int i = 0; i < 3; i++) {
             csigatRajzol(csiga[i]);
         }
@@ -64,25 +64,25 @@ public class Csigaverseny {
     public static void csigatRajzol(Csiga jocsiga){
         String vonalSzin = "";
         switch (jocsiga.getSzin()) {
-            case "piros": vonalSzin=Csiga.RED; break;   //a csigÃ¡k pedig a sajÃ¡t szÃ­nÃ¼kkel jelennek meg
+            case "piros": vonalSzin=Csiga.RED; break;   //a csigák pedig a saját színükkel jelennek meg
             case "zold": vonalSzin=Csiga.GREEN; break;
             case "kek": vonalSzin=Csiga.BLUE; break;
         }
-        System.out.print(vonalSzin+"______");           //elÅ‘szÃ¶r elmentek a startvonalig,
-        for (int i = 0; i < jocsiga.getPozicio(); i++) { //aztÃ¡n olyan messze jutnak, amit a pozÃ­ciÃ³juk mutat
+        System.out.print(vonalSzin+"______");           //elõször elmentek a startvonalig,
+        for (int i = 0; i < jocsiga.getPozicio(); i++) { //aztán olyan messze jutnak, amit a pozíciójuk mutat
             System.out.print("_");
         }
         System.out.println("@");
     }
 
-    private static int kiNyert() {
+    private static int kiNyert() {                      //a holtverseny lehetõségét most nem vizsgálom
         int nyeresreAll = 0;
         for (int i = 1; i < 3; i++) {
             if (csiga[i].getPozicio()>csiga[nyeresreAll].getPozicio()) {
                 nyeresreAll = i;
             }
         }
-        return nyeresreAll+1;       //az index Ã©s a tipp kÃ¶zÃ¶tti eltÃ©rÃ©s miatt +1
+        return nyeresreAll++;       //az index és a tipp közötti eltérés miatt +1
     }
     
 }
